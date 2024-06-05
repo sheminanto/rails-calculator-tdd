@@ -22,4 +22,12 @@ class AdditionServiceTest < ActiveSupport::TestCase
     sum = AdditionService.new('//;\n1;2;3').process
     assert_equal 6, sum
   end
+
+  def test_should_throw_error_if_negative_number_present
+    error = assert_raise NegativeNumberException do
+      AdditionService.new('//;\n1;-2;-3').process
+    end
+    error_message = 'negative numbers not allowed -2, -3'
+    assert_equal error_message, error.message
+  end
 end
