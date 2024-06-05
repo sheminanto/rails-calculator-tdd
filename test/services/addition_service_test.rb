@@ -35,4 +35,14 @@ class AdditionServiceTest < ActiveSupport::TestCase
     sum = AdditionService.new('//;\n1;2;1001').process
     assert_equal 3, sum
   end
+
+  def test_should_allow_delimiter_with_any_length
+    sum = AdditionService.new('//[***]\n1***2***3').process
+    assert_equal 6, sum
+  end
+
+  def test_should_allow_multiple_delimiters
+    sum = AdditionService.new('//[*][%]\n1*2%3').process
+    assert_equal 6, sum
+  end
 end
