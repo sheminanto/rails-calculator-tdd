@@ -83,7 +83,7 @@ Rails.application.configure do
   end
   # config.assets.compile = true
   # config.assets.gzip = true
-  config.public_file_server.enabled = true
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+  config.hosts << ENV['RAILWAY_PUBLIC_DOMAIN']
 end
