@@ -17,7 +17,8 @@ class AdditionService
   def parse_delimiter(string)
     return [default_delimiters, string] unless string.start_with?('//')
 
-    delimiters = string.match(/\/\/(.+)\\n/)[1]
+    delimiters = string.start_with?('//[') ? string.scan(/\[(.*?)\]/).flatten : string.match(/\/\/(.+)\\n/)[1]
+
     new_input_string = @input_string.split("\\n",2)[1]
     [delimiters, new_input_string]
   end
