@@ -1,6 +1,8 @@
 # README
 
-This rails project is the implementation of the string based calculator specified in https://osherove.com/tdd-kata-1/
+This rails project is the implementation of the string based calculator specified in https://osherove.com/tdd-kata-1/.
+
+You can find the live demo of this application at: https://rails-calculator-tdd-production.up.railway.app/
 
 ### Development
 Install dependencies:
