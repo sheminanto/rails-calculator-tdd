@@ -32,6 +32,6 @@ class AdditionService
 
     raise NegativeNumberException, negative_numbers if negative_numbers.any?
 
-    numbers.reduce(&:+)
+    numbers.reduce { |sum, number| number > 1000 ? sum : sum + number }
   end
 end
