@@ -9,7 +9,7 @@ class AdditionService
     return 0 if @input_string.empty?
 
     delimiters, string = parse_delimiter(@input_string)
-    string.split(Regexp.union(delimiters)).map(&:to_i).reduce(&:+)
+    add(string, delimiters)
   end
 
   private
@@ -24,5 +24,14 @@ class AdditionService
 
   def default_delimiters
     ["\n", ',']
+  end
+
+  def add(string, delimiters)
+    numbers = string.split(Regexp.union(delimiters)).map(&:to_i)
+    negative_numbers = numbers.select(&:negative?)
+
+    raise NegativeNumberException, negative_numbers if negative_numbers.any?
+
+    numbers.reduce(&:+)
   end
 end
