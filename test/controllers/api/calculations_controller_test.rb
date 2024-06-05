@@ -9,4 +9,11 @@ class Api::CalculationsControllerTest < ActionDispatch::IntegrationTest
     response_json = JSON.parse(response.body)
     assert_equal 3, response_json['result']
   end
+
+  def test_should_return_error_when_negative_number_present
+    post add_api_calculations_path, params: { input: '1,2,-1' }
+    assert_response :unprocessable_entity
+    response_json = JSON.parse(response.body)
+    assert_equal response_json['message'], 'negative numbers not allowed -1'
+  end
 end
