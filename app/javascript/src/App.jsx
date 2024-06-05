@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
+import Calculator from "./components/Calculator";
 
-const App = () => (
-  <h1 className="text-3xl font-bold underline bg-red-400">
-    Helloooooo world! 1234
-  </h1>
-);
+const App = () => {
+  return (
+    <div className="h-screen w-screen flex">
+      <Calculator />
+    </div>
+  );
+};
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
