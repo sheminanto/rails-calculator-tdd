@@ -12,4 +12,9 @@ class AdditionServiceTest < ActiveSupport::TestCase
     sum = AdditionService.new('').process
     assert_equal 0, sum
   end
+
+  def test_should_allow_new_line_as_delimiter
+    sum = AdditionService.new('1\n,2,3').process
+    assert_equal 6, sum
+  end
 end
