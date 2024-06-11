@@ -47,7 +47,7 @@ class AdditionServiceTest < ActiveSupport::TestCase
   end
 
   def test_should_allow_multiple_delimiter_with_more_than_one_character
-    sum = AdditionService.new('//[***][%%%%]\n1***2%%%3').process
+    sum = AdditionService.new('//[***][%%%]\n1***2%%%3').process
     assert_equal 6, sum
   end
 end
