@@ -42,7 +42,11 @@ class AdditionService
 
   def multiply(string, delimiters)
     numbers = get_numbers_from_string(string, delimiters)
-    numbers.reduce(&:*)
+    negative_numbers = numbers.select(&:negative?)
+
+    raise NegativeNumberException, negative_numbers if negative_numbers.any?
+
+    numbers.reduce { |product, number| number > 1000 ? product : product * number }
   end
 
   def get_numbers_from_string(string, delimiters)
