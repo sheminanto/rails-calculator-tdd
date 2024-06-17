@@ -1,14 +1,18 @@
 # frozen_string_literal: true
 
 class AdditionService
-  def initialize(input_string)
+  def initialize(input_string, action = "")
     @input_string = input_string
+    @action = action
   end
 
   def process
     return 0 if @input_string.empty?
 
     delimiters, string = parse_delimiter(@input_string)
+
+    return multiply(string, delimiters) if @action == "*"
+
     add(string, delimiters)
   end
 
@@ -34,5 +38,10 @@ class AdditionService
     raise NegativeNumberException, negative_numbers if negative_numbers.any?
 
     numbers.reduce { |sum, number| number > 1000 ? sum : sum + number }
+  end
+
+  def multiply(string, delimiters)
+    numbers = string.split(Regexp.union(delimiters)).map(&:to_i)
+    numbers.reduce(&:*)
   end
 end
