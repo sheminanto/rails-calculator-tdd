@@ -55,4 +55,12 @@ class AdditionServiceTest < ActiveSupport::TestCase
     sum = AdditionService.new('//[***][%%%]\n1***2%%%4', '*').process
     assert_equal 8, sum
   end
+
+  def test_should_raise_exemption_when_negative_numbers_are_present_while_performing_multiplicatin
+    error = assert_raise NegativeNumberException do
+      AdditionService.new('//;\n1;-2;-3', '*').process
+    end
+    error_message = 'negative numbers not allowed -2, -3'
+    assert_equal error_message, error.message
+  end
 end
