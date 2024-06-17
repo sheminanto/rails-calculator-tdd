@@ -32,24 +32,22 @@ class AdditionService
   end
 
   def add(string, delimiters)
-    numbers = get_numbers_from_string(string, delimiters)
-    negative_numbers = numbers.select(&:negative?)
-
-    raise NegativeNumberException, negative_numbers if negative_numbers.any?
-
-    numbers.reduce { |sum, number| number > 1000 ? sum : sum + number }
+    numbers = get_eligible_numbers_from_string!(string, delimiters)
+    numbers.reduce(&:+)
   end
 
   def multiply(string, delimiters)
-    numbers = get_numbers_from_string(string, delimiters)
+    numbers = get_eligible_numbers_from_string!(string, delimiters)
+    numbers.reduce(&:*)
+  end
+
+  def get_eligible_numbers_from_string!(string, delimiters)
+    numbers = string.split(Regexp.union(delimiters)).map(&:to_i)
     negative_numbers = numbers.select(&:negative?)
+    eligible_numbers = numbers.select { |number| number <= 1000 }
 
     raise NegativeNumberException, negative_numbers if negative_numbers.any?
 
-    numbers.reduce { |product, number| number > 1000 ? product : product * number }
-  end
-
-  def get_numbers_from_string(string, delimiters)
-    string.split(Regexp.union(delimiters)).map(&:to_i)
+    eligible_numbers
   end
 end
