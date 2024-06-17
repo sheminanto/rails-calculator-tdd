@@ -50,4 +50,9 @@ class AdditionServiceTest < ActiveSupport::TestCase
     sum = AdditionService.new('//[***][%%%]\n1***2%%%3').process
     assert_equal 6, sum
   end
+
+  def test_should_multiply_if_asterisk_present
+    sum = AdditionService.new('//[***][%%%]\n1***2%%%4', '*').process
+    assert_equal 8, sum
+  end
 end
