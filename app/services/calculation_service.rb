@@ -10,6 +10,8 @@ class CalculationService
     return 0 if @input_string.empty?
 
     delimiters, string = parse_delimiter(@input_string)
+    numbers = get_numbers_from_string(string, delimiters)
+    yield(numbers) if block_given?
 
     return multiply(string, delimiters) if @action == "*"
 
@@ -49,5 +51,9 @@ class CalculationService
     raise NegativeNumberException, negative_numbers if negative_numbers.any?
 
     eligible_numbers
+  end
+
+  def get_numbers_from_string(string, delimiters)
+    string.split(Regexp.union(delimiters)).map(&:to_i)
   end
 end
