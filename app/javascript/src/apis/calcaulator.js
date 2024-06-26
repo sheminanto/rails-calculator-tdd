@@ -4,7 +4,7 @@ const routes = {
   add: "api/calculations/add",
 };
 
-const add = (input) => axios.post(routes.add, { input });
+const add = (input, action) => axios.post(routes.add, { input, action });
 
 const calculatorApi = { add };
 

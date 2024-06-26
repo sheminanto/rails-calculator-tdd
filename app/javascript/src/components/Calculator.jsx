@@ -4,17 +4,18 @@ import Spinner from "./Spinner";
 
 const Calculator = () => {
   const [inputText, setInputText] = useState("");
+  const [action, setAction] = useState("");
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const performAddition = async () => {
+  const performCalculation = async () => {
     setIsLoading(true);
     setResult(null);
     setError(null);
 
     try {
-      const response = await calculatorApi.add(inputText);
+      const response = await calculatorApi.add(inputText, action);
       setResult(response.data.result);
     } catch (error) {
       setError(error.response.data.message);
@@ -25,20 +26,33 @@ const Calculator = () => {
   return (
     <div className="mx-auto w-1/2 my-auto p-6 bg-white border border-gray-200 rounded-lg shadow space-y-4">
       <div className="flex flex-col w-full">
-        <label htmlFor="add-input">Enter string</label>
-        <input
-          placeholder="//[***][%%%]\n1***2%%%3"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          value={inputText}
-          type="text"
-          name="add-input"
-          onChange={(e) => setInputText(e.target.value)}
-        />
+        <div>
+          <label htmlFor="add-input">Enter string</label>
+          <input
+            placeholder="//[***][%%%]\n1***2%%%3"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            value={inputText}
+            type="text"
+            name="add-input"
+            onChange={(e) => setInputText(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="add-input">Enter action</label>
+          <input
+            placeholder="*"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            value={action}
+            type="text"
+            name="add-input"
+            onChange={(e) => setAction(e.target.value)}
+          />
+        </div>
       </div>
       <div className="flex space-x-4 items-center">
         <button
           disabled={isLoading}
-          onClick={performAddition}
+          onClick={performCalculation}
           type="button"
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none"
         >

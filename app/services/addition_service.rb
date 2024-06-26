@@ -23,7 +23,7 @@ class AdditionService
 
     delimiters = string.start_with?('//[') ? string.scan(/\[(.*?)\]/).flatten : string.match(/\/\/(.+)\\n/)[1]
 
-    new_input_string = @input_string.split("\\n",2)[1]
+    new_input_string = @input_string.split("\\n", 2)[1]
     [delimiters, new_input_string]
   end
 
