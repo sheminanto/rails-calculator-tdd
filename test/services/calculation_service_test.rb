@@ -2,63 +2,63 @@
 
 require 'test_helper'
 
-class AdditionServiceTest < ActiveSupport::TestCase
+class CalculationServiceTest < ActiveSupport::TestCase
   def test_should_perform_addition
-    sum = AdditionService.new('1,2,3').process
+    sum = CalculationService.new('1,2,3').process
     assert_equal 6, sum
   end
 
   def test_should_return_zero_if_the_string_is_empty
-    sum = AdditionService.new('').process
+    sum = CalculationService.new('').process
     assert_equal 0, sum
   end
 
   def test_should_allow_new_line_as_delimiter
-    sum = AdditionService.new('1\n,2,3').process
+    sum = CalculationService.new('1\n,2,3').process
     assert_equal 6, sum
   end
 
   def test_should_allow_custom_delimiter
-    sum = AdditionService.new('//;\n1;2;3').process
+    sum = CalculationService.new('//;\n1;2;3').process
     assert_equal 6, sum
   end
 
   def test_should_throw_error_if_negative_number_present
     error = assert_raise NegativeNumberException do
-      AdditionService.new('//;\n1;-2;-3').process
+      CalculationService.new('//;\n1;-2;-3').process
     end
     error_message = 'negative numbers not allowed -2, -3'
     assert_equal error_message, error.message
   end
 
   def test_ignore_numbers_greater_than_thousand
-    sum = AdditionService.new('//;\n1;2;1001').process
+    sum = CalculationService.new('//;\n1;2;1001').process
     assert_equal 3, sum
   end
 
   def test_should_allow_delimiter_with_any_length
-    sum = AdditionService.new('//[***]\n1***2***3').process
+    sum = CalculationService.new('//[***]\n1***2***3').process
     assert_equal 6, sum
   end
 
   def test_should_allow_multiple_delimiters
-    sum = AdditionService.new('//[*][%]\n1*2%3').process
+    sum = CalculationService.new('//[*][%]\n1*2%3').process
     assert_equal 6, sum
   end
 
   def test_should_allow_multiple_delimiter_with_more_than_one_character
-    sum = AdditionService.new('//[***][%%%]\n1***2%%%3').process
+    sum = CalculationService.new('//[***][%%%]\n1***2%%%3').process
     assert_equal 6, sum
   end
 
   def test_should_multiply_if_asterisk_present
-    sum = AdditionService.new('//[***][%%%]\n1***2%%%4', '*').process
+    sum = CalculationService.new('//[***][%%%]\n1***2%%%4', '*').process
     assert_equal 8, sum
   end
 
   def test_should_raise_exemption_when_negative_numbers_are_present_while_performing_multiplicatin
     error = assert_raise NegativeNumberException do
-      AdditionService.new('//;\n1;-2;-3', '*').process
+      CalculationService.new('//;\n1;-2;-3', '*').process
     end
     error_message = 'negative numbers not allowed -2, -3'
     assert_equal error_message, error.message

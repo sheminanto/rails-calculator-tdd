@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AdditionService
+class CalculationService
   def initialize(input_string, action = "")
     @input_string = input_string
     @action = action

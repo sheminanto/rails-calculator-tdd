@@ -2,7 +2,7 @@
 
 class Api::CalculationsController < ApplicationController
   def create
-    result = AdditionService.new(calculation_params['input'], calculation_params['action']).process
+    result = CalculationService.new(calculation_params['input'], calculation_params['action']).process
 
     render json: { result: result }
   rescue NegativeNumberException => e
