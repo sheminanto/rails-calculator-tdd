@@ -63,4 +63,15 @@ class CalculationServiceTest < ActiveSupport::TestCase
     error_message = 'negative numbers not allowed -2, -3'
     assert_equal error_message, error.message
   end
+
+  def test_should_acccept_custom_validation_for_even_numbers
+    error = assert_raise StandardError do
+      CalculationService.new('//;\n1;2;3', '*').process do |numbers|
+        even_numbers = numbers.map(&:even?)
+
+        raise "Even number exception" if even_numbers.present?
+      end
+    end
+    assert_equal "Even number exception", error.message
+  end
 end
