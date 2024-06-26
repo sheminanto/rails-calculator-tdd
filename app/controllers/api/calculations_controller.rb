@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::CalculationsController < ApplicationController
-  def add
+  def create
     result = AdditionService.new(calculation_params['input'], calculation_params['action']).process
 
     render json: { result: result }

@@ -1,11 +1,12 @@
 import axios from "axios";
 
 const routes = {
-  add: "api/calculations/add",
+  calculate: "api/calculations",
 };
 
-const add = (input, action) => axios.post(routes.add, { input, action });
+const calculate = (input, action) =>
+  axios.post(routes.calculate, { input, action });
 
-const calculatorApi = { add };
+const calculatorApi = { calculate };
 
 export default calculatorApi;

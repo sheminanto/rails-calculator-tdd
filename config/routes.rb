@@ -2,9 +2,7 @@
 
 Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
-    resources :calculations, only: [] do
-      post :add, on: :collection
-    end
+    resources :calculations, only: :create
   end
 
   root "home#index"

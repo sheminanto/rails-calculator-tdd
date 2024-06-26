@@ -15,7 +15,7 @@ const Calculator = () => {
     setError(null);
 
     try {
-      const response = await calculatorApi.add(inputText, action);
+      const response = await calculatorApi.calculate(inputText, action);
       setResult(response.data.result);
     } catch (error) {
       setError(error.response.data.message);
