@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class CalculationService
-  def initialize(input_string, action = "")
+  def initialize(input_string, action: '', validators: [])
     @input_string = input_string
     @action = action
+    @validators = validators
   end
 
   def process
@@ -11,7 +12,7 @@ class CalculationService
 
     delimiters, string = parse_delimiter(@input_string)
     numbers = get_numbers_from_string(string, delimiters)
-    yield(numbers) if block_given?
+    validate_numbers!(numbers)
 
     return multiply(string, delimiters) if @action == "*"
 
@@ -19,6 +20,12 @@ class CalculationService
   end
 
   private
+
+  def validate_numbers!(numbers)
+    @validators.each do |validator|
+      validator.new(numbers).validate!
+    end
+  end
 
   def parse_delimiter(string)
     return [default_delimiters, string] unless string.start_with?('//')
@@ -44,13 +51,8 @@ class CalculationService
   end
 
   def get_eligible_numbers_from_string!(string, delimiters)
-    numbers = string.split(Regexp.union(delimiters)).map(&:to_i)
-    negative_numbers = numbers.select(&:negative?)
-    eligible_numbers = numbers.select { |number| number <= 1000 }
-
-    raise NegativeNumberException, negative_numbers if negative_numbers.any?
-
-    eligible_numbers
+    numbers = get_numbers_from_string(string, delimiters)
+    numbers.select { |number| number <= 1000 }
   end
 
   def get_numbers_from_string(string, delimiters)
