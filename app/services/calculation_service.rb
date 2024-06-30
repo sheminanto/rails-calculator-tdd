@@ -11,12 +11,12 @@ class CalculationService
     return 0 if @input_string.empty?
 
     delimiters, string = parse_delimiter(@input_string)
-    numbers = get_numbers_from_string(string, delimiters)
+    numbers = get_eligible_numbers_from_string(string, delimiters)
     validate_numbers!(numbers)
 
-    return multiply(string, delimiters) if @action == "*"
+    return multiply(numbers) if @action == '*'
 
-    add(string, delimiters)
+    add(numbers)
   end
 
   private
@@ -40,22 +40,16 @@ class CalculationService
     ["\n", ',']
   end
 
-  def add(string, delimiters)
-    numbers = get_eligible_numbers_from_string!(string, delimiters)
+  def add(numbers)
     numbers.reduce(&:+)
   end
 
-  def multiply(string, delimiters)
-    numbers = get_eligible_numbers_from_string!(string, delimiters)
+  def multiply(numbers)
     numbers.reduce(&:*)
   end
 
-  def get_eligible_numbers_from_string!(string, delimiters)
-    numbers = get_numbers_from_string(string, delimiters)
+  def get_eligible_numbers_from_string(string, delimiters)
+    numbers = string.split(Regexp.union(delimiters)).map(&:to_i)
     numbers.select { |number| number <= 1000 }
-  end
-
-  def get_numbers_from_string(string, delimiters)
-    string.split(Regexp.union(delimiters)).map(&:to_i)
   end
 end
