@@ -23,9 +23,9 @@ class CalculationServiceTest < ActiveSupport::TestCase
     assert_equal 6, sum
   end
 
-  def test_should_throw_error_if_negative_number_present
+  def test_should_throw_error_if_negative_number_present_via_custom_validation
     error = assert_raise NegativeNumberException do
-      CalculationService.new('//;\n1;-2;-3').process
+      CalculationService.new('//;\n1;-2;-3', validators: [NegativeNumberValidator]).process
     end
     error_message = 'negative numbers not allowed -2, -3'
     assert_equal error_message, error.message
@@ -52,26 +52,7 @@ class CalculationServiceTest < ActiveSupport::TestCase
   end
 
   def test_should_multiply_if_asterisk_present
-    sum = CalculationService.new('//[***][%%%]\n1***2%%%4', '*').process
+    sum = CalculationService.new('//[***][%%%]\n1***2%%%4', action: '*').process
     assert_equal 8, sum
-  end
-
-  def test_should_raise_exemption_when_negative_numbers_are_present_while_performing_multiplicatin
-    error = assert_raise NegativeNumberException do
-      CalculationService.new('//;\n1;-2;-3', '*').process
-    end
-    error_message = 'negative numbers not allowed -2, -3'
-    assert_equal error_message, error.message
-  end
-
-  def test_should_acccept_custom_validation_for_even_numbers
-    error = assert_raise StandardError do
-      CalculationService.new('//;\n1;2;3', '*').process do |numbers|
-        even_numbers = numbers.map(&:even?)
-
-        raise "Even number exception" if even_numbers.present?
-      end
-    end
-    assert_equal "Even number exception", error.message
   end
 end
